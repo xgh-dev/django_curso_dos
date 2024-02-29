@@ -1,0 +1,9 @@
+{% if questions %}
+<ul style="list-style: none">
+    {% for q in questions %}
+    <li><a href="/{{q.id}}/">{{q.id}}.-{{q.question_text}}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>no hay questions para mostrar</p>
+{% endif %}
