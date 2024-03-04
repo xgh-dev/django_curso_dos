@@ -1,25 +1,32 @@
 #from django.db.models import F esto es de la version 5.0
+from typing import Any
+from django.db.models.query import QuerySet
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.views import generic
 
 from .models import Choice, Question
 
 
 # Create your views here.
-def index(request):
-    questions = Question.objects.all()
-    context = {"questions":questions}
-    return render(request,"index.html",context)
+class IndexView(generic.ListView):
+    #model = Question
+    context_object_name = "questions"
+    template_name = "index.html"
+    
+    #template_name = "index.html"
+    #context_object_name = "questions"
+    def get_queryset(self):
+        return Question.objects.order_by("-pub_date")
 
-def detail(request,question_id):
-    question = get_object_or_404(Question,pk=question_id)
-    context = {"question":question}
-    return render(request,"detail.html",context)
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "detail.html"
 
-def results(request,question_id):
-    question = get_object_or_404(Question,pk=question_id)
-    return render(request,"results.html",{"question":question})
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = "results.html"
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)

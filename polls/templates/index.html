@@ -1,7 +1,7 @@
 {% if questions %}
 <ul style="list-style: none">
     {% for q in questions %}
-    <li><a href="/{{q.id}}/">{{q.id}}.-{{q.question_text}}</a></li>
+    <li><a href="/{{q.id}}/">{{q.id}}.-{{q.question_text}}--{{q.pub_date}}</a></li>
     {% endfor %}
 </ul>
 {% else %}
